@@ -572,3 +572,18 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
 /* Version 0.4 transport assessment refinement */
 .assessment-metrics-single { grid-template-columns: minmax(0, 1fr); max-width: 900px; }
 .assessment-metrics-single > div { width: 100%; }
+
+/* v0.4.1: exact centering for status SVGs */
+.range-symbol,
+.recommendation-icon {
+  position: relative;
+}
+.range-symbol > svg,
+.recommendation-icon > svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
