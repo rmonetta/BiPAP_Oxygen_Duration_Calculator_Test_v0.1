@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#062f63">
+  <meta name="description" content="Pre-arrival oxygen-duration planning for patients receiving BiPAP or NIV with the HAMILTON-T1.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BiPAP O₂ Duration">
+  <title>BiPAP Oxygen Duration Calculator</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="brand-text">
+        <div class="brand-main">Northwell</div>
+        <div class="brand-sub">Ambulance of Connecticut</div>
+      </div>
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Switch to dark mode" title="Toggle dark mode">
+        <span class="theme-icon" aria-hidden="true">◐</span>
+      </button>
+    </div>
+    <div class="title-rule"></div>
+    <h1>BiPAP Oxygen Duration Calculator</h1>
+    <p class="patient-type">For Noninvasive Ventilation Using the HAMILTON-T1</p>
+    <p class="subtitle">Pre-Arrival Transport Planning Tool — Test Build</p>
+  </header>
+
+  <main class="app-shell">
+    <section class="panel" aria-labelledby="oxygen-source-heading">
+      <div class="section-heading">
+        <span class="step-number">1</span>
+        <h2 id="oxygen-source-heading">Select Oxygen Source</h2>
+      </div>
+      <div id="tankSelector" class="tank-selector" role="radiogroup" aria-label="Oxygen source">
+        <button class="tank-option" type="button" role="radio" aria-checked="false" data-tank="D">
+          <strong>D Tank</strong><span>Portable Cylinder</span>
+        </button>
+        <button class="tank-option" type="button" role="radio" aria-checked="false" data-tank="E">
+          <strong>E Tank</strong><span>Large Portable Cylinder</span>
+        </button>
+        <button class="tank-option" type="button" role="radio" aria-checked="false" data-tank="M">
+          <strong>M Tank</strong><span>Ambulance On-Board Main</span>
+        </button>
+      </div>
+      <input id="tankType" type="hidden" value="">
+      <span class="field-error" id="tankTypeError"></span>
+
+      <label class="field pressure-field">
+        <span class="field-label">Current Tank Pressure</span>
+        <span class="input-with-unit">
+          <input id="tankPsi" type="number" inputmode="numeric" min="0" max="2200" step="1" placeholder="Enter PSI" autocomplete="off">
+          <span class="unit">PSI</span>
+        </span>
+        <span class="field-hint">A 300 PSI reserve is automatically retained.</span>
+        <span class="field-error" id="tankPsiError"></span>
+      </label>
+    </section>
+
+    <section class="panel" aria-labelledby="patient-heading">
+      <div class="section-heading">
+        <span class="step-number">2</span>
+        <h2 id="patient-heading">Patient &amp; Therapy Information</h2>
+      </div>
+      <div class="three-column">
+        <label class="field">
+          <span class="field-label">Patient Height</span>
+          <span class="height-inputs">
+            <span class="input-with-unit">
+              <input id="heightFeet" type="number" inputmode="numeric" min="4" max="7" step="1" placeholder="Feet" autocomplete="off">
+              <span class="unit">ft</span>
+            </span>
+            <span class="input-with-unit">
+              <input id="heightInches" type="number" inputmode="numeric" min="0" max="11" step="1" placeholder="Inches" autocomplete="off">
+              <span class="unit">in</span>
+            </span>
+          </span>
+          <span class="field-hint">Adult planning range: 4 ft 0 in–7 ft 11 in</span>
+          <span class="field-error" id="heightError"></span>
+        </label>
+
+        <label class="field">
+          <span class="field-label">Planned FiO₂</span>
+          <span class="input-with-unit">
+            <input id="fio2" type="number" inputmode="numeric" min="21" max="100" step="1" placeholder="FiO₂" autocomplete="off">
+            <span class="unit">%</span>
+          </span>
+          <span class="field-hint">Allowed range: 21–100%</span>
+          <span class="field-error" id="fio2Error"></span>
+        </label>
+
+        <div class="field assumptions-card" aria-label="Planning assumptions">
+          <span class="field-label">Built-In Planning Assumptions</span>
+          <ul>
+            <li>Male PBW equation</li>
+            <li>8 mL/kg predicted tidal volume</li>
+            <li>10% tidal-volume allowance</li>
+            <li>Respiratory rate fixed at 20/min</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-row">
+        <button id="resetButton" class="reset-button" type="button">Reset Calculator</button>
+      </div>
+    </section>
+
+    <section class="results-panel" aria-labelledby="results-heading">
+      <div class="results-heading-row">
+        <h2 id="results-heading">Estimated Oxygen Duration</h2>
+        <span id="calculationStatus" class="status-chip">Enter all values</span>
+      </div>
+
+      <div class="results-grid bipap-results" aria-live="polite">
+        <article class="result-card">
+          <div class="result-label">Estimated Planning VT</div>
+          <div class="result-value"><span id="planningVt">—</span> <small>mL</small></div>
+          <div class="result-detail">8 mL/kg male PBW plus a 10% internal allowance.</div>
+        </article>
+
+        <article class="result-card">
+          <div class="result-label">Estimated Minute Ventilation</div>
+          <div class="result-value"><span id="minuteVentilation">—</span> <small>L/min</small></div>
+          <div class="result-detail">Calculated using a fixed planning rate of 20 breaths/min.</div>
+        </article>
+
+        <article id="durationCard" class="result-card duration-card neutral range-duration-card">
+          <div class="result-label">Estimated Duration Range</div>
+          <div class="duration-value"><span id="oxygenDurationRange">—</span></div>
+          <div class="duration-unit">Estimated Time Remaining</div>
+          <div id="durationRange" class="range-badge">Awaiting values</div>
+        </article>
+      </div>
+
+      <div id="maskSealBanner" class="recommendation neutral" role="status">
+        <div class="recommendation-icon" aria-hidden="true">i</div>
+        <div>
+          <div class="recommendation-title">Estimated range based on mask seal.</div>
+          <div class="recommendation-text">A poorer mask seal increases oxygen consumption and lowers the available duration.</div>
+        </div>
+      </div>
+
+      <div id="transportBanner" class="recommendation neutral" role="status">
+        <div class="recommendation-icon" aria-hidden="true">!</div>
+        <div>
+          <div class="recommendation-title">Transport Planning</div>
+          <div id="transportText" class="recommendation-text">Enter the required information above.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="range-guide" aria-label="Duration range guide">
+      <h2>Status Based on Lower Duration Estimate</h2>
+      <div class="range-grid">
+        <div class="range-item good"><span class="range-symbol">✓</span><div><strong>60+ minutes</strong><span>Good range</span></div></div>
+        <div class="range-item caution"><span class="range-symbol">!</span><div><strong>30–59 minutes</strong><span>Caution range</span></div></div>
+        <div class="range-item critical"><span class="range-symbol">×</span><div><strong>&lt; 30 minutes</strong><span>Critical range</span></div></div>
+      </div>
+    </section>
+
+    <aside class="disclaimer">
+      <span class="info-symbol" aria-hidden="true">i</span>
+      <p><strong>Planning estimate only.</strong> This calculator estimates oxygen duration for pre-transport planning. It uses a conservative height-based tidal-volume estimate, a fixed respiratory rate, assumed mask-leak conditions, a 3 L/min HAMILTON-T1 base flow, and a 300 PSI cylinder reserve. Actual minute ventilation, patient effort, mask leak, FiO₂ requirements, and oxygen consumption may vary. Confirm adequate oxygen supply before departure and continuously monitor ventilator and cylinder parameters during transport.</p>
+    </aside>
+
+    <footer><span>Northwell Ambulance of Connecticut</span><span>Test Version 0.1</span></footer>
+  </main>
+  <noscript><div class="noscript">JavaScript must be enabled to use this calculator.</div></noscript>
+  <script src="app.js" defer></script>
+</body>
+</html>

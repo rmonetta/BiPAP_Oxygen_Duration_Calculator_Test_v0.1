@@ -1,0 +1,13 @@
+TEST CASES
+
+Case 1: 6 ft 1 in, M tank, 1000 PSI, FiO2 60%
+Expected approximately:
+- Planning VT: 704 mL
+- Minute ventilation: 14.1 L/min
+- Duration range: 1 hr to 1 hr 40 min
+
+Case 2: 5 ft 8 in, M tank, 1500 PSI, FiO2 100%
+Expected approximately:
+- Planning VT: 603 mL
+- Minute ventilation: 12.1 L/min
+- Duration range: 53 min to 1 hr 33 min
