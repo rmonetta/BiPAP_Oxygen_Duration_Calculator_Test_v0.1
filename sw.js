@@ -1,4 +1,4 @@
-const CACHE_NAME = "bipap-o2-duration-v0.2";
+const CACHE_NAME = "bipap-o2-duration-v0.3";
 const ASSETS = [
   "./",
   "./index.html",

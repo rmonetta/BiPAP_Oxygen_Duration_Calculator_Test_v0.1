@@ -112,29 +112,25 @@
   function formatDuration(minutes) {
     if (!Number.isFinite(minutes) || minutes < 0) return "—";
     const rounded = Math.max(0, Math.round(minutes));
-    if (rounded < 61) return `${rounded} min`;
+    if (rounded < 60) return `${rounded}m`;
     const hours = Math.floor(rounded / 60);
     const mins = rounded % 60;
-    return mins === 0 ? `${hours} hr` : `${hours} hr ${mins} min`;
+    return mins === 0 ? `${hours}h` : `${hours}h ${mins}m`;
   }
 
   function setDurationStatus(lowerMinutes) {
     let kind;
-    let label;
     if (lowerMinutes >= 60) {
       kind = "good";
-      label = "Good range";
     } else if (lowerMinutes >= 30) {
       kind = "caution";
-      label = "Caution range";
     } else {
       kind = "critical";
-      label = "Critical range";
     }
 
     el.durationCard.className = `result-card duration-card range-duration-card ${kind}`;
     el.calculationStatus.textContent = "Updated automatically";
-    el.durationRange.textContent = label;
+    el.durationRange.textContent = "Estimated O₂ Tank Duration";
   }
 
   function setTransportAssessment(transportMinutes, lowerDuration) {
@@ -153,24 +149,38 @@
       kind = "good";
       icon = "✓";
       title = "Adequate Oxygen Supply";
-      text = `Anticipated transport: ${formatDuration(transportMinutes)}. Conservative projected reserve: ${formatDuration(reserve)}.`;
+      text = `
+        <div class="assessment-metrics">
+          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
+          <div><span>Conservative reserve remaining</span><strong>${formatDuration(reserve)}</strong></div>
+        </div>`;
     } else if (reserve >= 0) {
       kind = "caution";
       icon = "!";
       title = "Limited Oxygen Reserve";
-      text = `Anticipated transport: ${formatDuration(transportMinutes)}. Conservative projected reserve: ${formatDuration(reserve)}. Consider changing or supplementing the oxygen source before departure.`;
+      text = `
+        <div class="assessment-metrics">
+          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
+          <div><span>Conservative reserve remaining</span><strong>${formatDuration(reserve)}</strong></div>
+        </div>
+        <p class="assessment-action">Consider changing or supplementing the oxygen source before departure.</p>`;
     } else {
       kind = "critical";
       icon = "×";
       title = "Insufficient Oxygen Supply";
-      text = `Anticipated transport exceeds the conservative estimated oxygen duration by ${formatDuration(Math.abs(reserve))}. Change or supplement the oxygen source before departure.`;
+      text = `
+        <div class="assessment-metrics">
+          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
+          <div><span>Estimated shortfall</span><strong>${formatDuration(Math.abs(reserve))}</strong></div>
+        </div>
+        <p class="assessment-action">Change or supplement the oxygen source before departure.</p>`;
     }
 
     el.transportAssessment.hidden = false;
-    el.transportBanner.className = `recommendation ${kind}`;
+    el.transportBanner.className = `recommendation transport-decision ${kind}`;
     el.transportBanner.querySelector(".recommendation-icon").textContent = icon;
     el.transportTitle.textContent = title;
-    el.transportText.textContent = text;
+    el.transportText.innerHTML = text;
   }
 
   function resetResults() {

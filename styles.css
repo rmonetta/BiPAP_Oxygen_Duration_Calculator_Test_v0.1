@@ -506,3 +506,53 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   .range-duration-card .duration-value { font-size: clamp(2.15rem, 12vw, 3.5rem); }
 }
 .results-panel > .range-duration-card { margin-top: 2px; }
+
+
+/* Version 0.3 transport decision presentation */
+.transport-decision { padding: 20px; }
+.recommendation-content { flex: 1; min-width: 0; }
+.assessment-kicker {
+  margin-bottom: 5px;
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: currentColor;
+}
+.transport-decision .recommendation-title {
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+.assessment-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 13px;
+}
+.assessment-metrics > div {
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--panel) 74%, transparent);
+}
+.assessment-metrics span {
+  display: block;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 750;
+}
+.assessment-metrics strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+.assessment-action {
+  margin: 13px 0 0;
+  color: var(--text);
+  font-weight: 750;
+}
+@media (max-width: 600px) {
+  .assessment-metrics { grid-template-columns: 1fr; }
+}
