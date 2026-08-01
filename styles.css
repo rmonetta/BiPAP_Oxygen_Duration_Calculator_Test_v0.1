@@ -431,3 +431,78 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   .tank-selector { grid-template-columns: 1fr; }
   .tank-option { min-height: 72px; }
 }
+
+/* Version 0.2 refinements */
+.title-with-icon {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 3vw, 26px);
+}
+
+.title-with-icon > div { min-width: 0; }
+
+.bipap-icon {
+  width: clamp(62px, 9vw, 92px);
+  height: clamp(62px, 9vw, 92px);
+  flex: 0 0 auto;
+  color: white;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,.18));
+}
+
+.optional-label {
+  display: inline-block;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: var(--neutral-soft);
+  color: var(--neutral);
+  font-size: .66em;
+  vertical-align: middle;
+}
+
+.transport-time-field {
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+.range-duration-card {
+  width: 100%;
+  padding: clamp(26px, 5vw, 46px);
+}
+
+.range-duration-card .result-label { min-height: 0; }
+
+.range-duration-card .duration-value {
+  margin: 20px 0 12px;
+  font-size: clamp(2.5rem, 8vw, 5.3rem);
+  letter-spacing: -.025em;
+  white-space: normal;
+}
+
+.mask-seal-note {
+  max-width: 760px;
+  margin: 18px auto 0;
+  color: var(--text);
+  font-size: .98rem;
+}
+
+.transport-assessment[hidden] { display: none; }
+
+@media (max-width: 660px) {
+  .title-with-icon {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .bipap-icon {
+    width: 58px;
+    height: 58px;
+    margin-top: 2px;
+  }
+  .title-with-icon .patient-type,
+  .title-with-icon .subtitle { text-align: left; }
+  .range-duration-card .duration-value { font-size: clamp(2.15rem, 12vw, 3.5rem); }
+}
+.results-panel > .range-duration-card { margin-top: 2px; }

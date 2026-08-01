@@ -1,13 +1,32 @@
-TEST CASES
+BiPAP Oxygen Duration Calculator — Test Version 0.2
 
-Case 1: 6 ft 1 in, M tank, 1000 PSI, FiO2 60%
-Expected approximately:
-- Planning VT: 704 mL
-- Minute ventilation: 14.1 L/min
-- Duration range: 1 hr to 1 hr 40 min
+Internal constants:
+- D tank factor: 0.16 L/PSI
+- E tank factor: 0.28 L/PSI
+- M tank factor: 1.56 L/PSI
+- Reserve: 300 PSI
+- RR: 20/min
+- VT: 8 mL/kg male PBW
+- VT planning allowance: 10%
+- HAMILTON base flow: 3 L/min
+- Low leak: 5 L/min
+- High leak: 20 L/min
 
-Case 2: 5 ft 8 in, M tank, 1500 PSI, FiO2 100%
-Expected approximately:
-- Planning VT: 603 mL
-- Minute ventilation: 12.1 L/min
-- Duration range: 53 min to 1 hr 33 min
+Validation scenario 1:
+- Height: 6 ft 1 in
+- M tank
+- PSI: 1000
+- FiO2: 60%
+Expected displayed range: approximately 1 hr – 1 hr 40 min
+
+Validation scenario 2:
+- Height: 5 ft 8 in
+- M tank
+- PSI: 1500
+- FiO2: 100%
+Expected displayed range: approximately 53 min – 1 hr 33 min
+
+Optional transport assessment examples using scenario 1 lower estimate (~60 min):
+- 40 min transport -> green, about 20 min reserve
+- 55 min transport -> yellow, about 5 min reserve
+- 70 min transport -> red, about 10 min short

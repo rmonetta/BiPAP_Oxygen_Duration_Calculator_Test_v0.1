@@ -1,13 +1,21 @@
 {
   "name": "BiPAP Oxygen Duration Calculator",
-  "short_name": "BiPAP O₂",
-  "description": "Pre-arrival HAMILTON-T1 NIV oxygen-duration planning tool.",
+  "short_name": "BiPAP O\u2082",
+  "description": "Pre-arrival oxygen-duration planning for BiPAP therapy using the HAMILTON-T1.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f4f7fb",
   "theme_color": "#062f63",
   "icons": [
-    {"src":"assets/icons/icon-192.png","sizes":"192x192","type":"image/png"},
-    {"src":"assets/icons/icon-512.png","sizes":"512x512","type":"image/png"}
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }

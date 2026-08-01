@@ -18,19 +18,20 @@
     heightFeet: document.getElementById("heightFeet"),
     heightInches: document.getElementById("heightInches"),
     fio2: document.getElementById("fio2"),
+    transportMinutes: document.getElementById("transportMinutes"),
     resetButton: document.getElementById("resetButton"),
     tankTypeError: document.getElementById("tankTypeError"),
     tankPsiError: document.getElementById("tankPsiError"),
     heightError: document.getElementById("heightError"),
     fio2Error: document.getElementById("fio2Error"),
+    transportMinutesError: document.getElementById("transportMinutesError"),
     calculationStatus: document.getElementById("calculationStatus"),
-    planningVt: document.getElementById("planningVt"),
-    minuteVentilation: document.getElementById("minuteVentilation"),
     oxygenDurationRange: document.getElementById("oxygenDurationRange"),
     durationCard: document.getElementById("durationCard"),
     durationRange: document.getElementById("durationRange"),
-    maskSealBanner: document.getElementById("maskSealBanner"),
+    transportAssessment: document.getElementById("transportAssessment"),
     transportBanner: document.getElementById("transportBanner"),
+    transportTitle: document.getElementById("transportTitle"),
     transportText: document.getElementById("transportText")
   };
 
@@ -63,8 +64,10 @@
   }
 
   function clearErrors() {
-    [el.tankTypeError, el.tankPsiError, el.heightError, el.fio2Error].forEach((node) => { node.textContent = ""; });
-    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2].forEach((node) => node.classList.remove("is-invalid"));
+    [el.tankTypeError, el.tankPsiError, el.heightError, el.fio2Error, el.transportMinutesError]
+      .forEach((node) => { node.textContent = ""; });
+    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+      .forEach((node) => node.classList.remove("is-invalid"));
   }
 
   function validate() {
@@ -75,15 +78,35 @@
     const feet = numberValue(el.heightFeet);
     const inches = numberValue(el.heightInches);
     const fio2 = numberValue(el.fio2);
+    const transportMinutes = numberValue(el.transportMinutes);
 
-    if (!TANK_FACTORS[tank]) { el.tankTypeError.textContent = "Select an oxygen source."; valid = false; }
-    if (psi === null || psi < 0 || psi > 2200) { el.tankPsiError.textContent = "Enter a pressure from 0 to 2200 PSI."; el.tankPsi.classList.add("is-invalid"); valid = false; }
+    if (!TANK_FACTORS[tank]) {
+      el.tankTypeError.textContent = "Select an oxygen source.";
+      valid = false;
+    }
+    if (psi === null || psi < 0 || psi > 2200) {
+      el.tankPsiError.textContent = "Enter a pressure from 0 to 2200 PSI.";
+      el.tankPsi.classList.add("is-invalid");
+      valid = false;
+    }
     if (feet === null || feet < 4 || feet > 7 || inches === null || inches < 0 || inches > 11) {
       el.heightError.textContent = "Enter height using 4–7 feet and 0–11 inches.";
-      el.heightFeet.classList.add("is-invalid"); el.heightInches.classList.add("is-invalid"); valid = false;
+      el.heightFeet.classList.add("is-invalid");
+      el.heightInches.classList.add("is-invalid");
+      valid = false;
     }
-    if (fio2 === null || fio2 < 21 || fio2 > 100) { el.fio2Error.textContent = "Enter FiO₂ from 21% to 100%."; el.fio2.classList.add("is-invalid"); valid = false; }
-    return { valid, tank, psi, feet, inches, fio2 };
+    if (fio2 === null || fio2 < 21 || fio2 > 100) {
+      el.fio2Error.textContent = "Enter FiO₂ from 21% to 100%.";
+      el.fio2.classList.add("is-invalid");
+      valid = false;
+    }
+    if (transportMinutes !== null && (transportMinutes < 1 || transportMinutes > 1440)) {
+      el.transportMinutesError.textContent = "Enter 1–1440 minutes, or leave this optional field blank.";
+      el.transportMinutes.classList.add("is-invalid");
+      valid = false;
+    }
+
+    return { valid, tank, psi, feet, inches, fio2, transportMinutes };
   }
 
   function formatDuration(minutes) {
@@ -95,32 +118,75 @@
     return mins === 0 ? `${hours} hr` : `${hours} hr ${mins} min`;
   }
 
-  function setStatus(kind, label, lowerMinutes) {
-    [el.durationCard, el.maskSealBanner, el.transportBanner].forEach((node) => {
-      node.classList.remove("good", "caution", "critical", "neutral");
-      node.classList.add(kind);
-    });
-    el.calculationStatus.textContent = label;
+  function setDurationStatus(lowerMinutes) {
+    let kind;
+    let label;
+    if (lowerMinutes >= 60) {
+      kind = "good";
+      label = "Good range";
+    } else if (lowerMinutes >= 30) {
+      kind = "caution";
+      label = "Caution range";
+    } else {
+      kind = "critical";
+      label = "Critical range";
+    }
+
+    el.durationCard.className = `result-card duration-card range-duration-card ${kind}`;
+    el.calculationStatus.textContent = "Updated automatically";
     el.durationRange.textContent = label;
-    el.transportText.textContent = `Consider changing or supplementing the oxygen source if the anticipated transport time exceeds ${formatDuration(lowerMinutes)}.`;
+  }
+
+  function setTransportAssessment(transportMinutes, lowerDuration) {
+    if (transportMinutes === null) {
+      el.transportAssessment.hidden = true;
+      return;
+    }
+
+    const reserve = lowerDuration - transportMinutes;
+    let kind;
+    let icon;
+    let title;
+    let text;
+
+    if (reserve >= 15) {
+      kind = "good";
+      icon = "✓";
+      title = "Adequate Oxygen Supply";
+      text = `Anticipated transport: ${formatDuration(transportMinutes)}. Conservative projected reserve: ${formatDuration(reserve)}.`;
+    } else if (reserve >= 0) {
+      kind = "caution";
+      icon = "!";
+      title = "Limited Oxygen Reserve";
+      text = `Anticipated transport: ${formatDuration(transportMinutes)}. Conservative projected reserve: ${formatDuration(reserve)}. Consider changing or supplementing the oxygen source before departure.`;
+    } else {
+      kind = "critical";
+      icon = "×";
+      title = "Insufficient Oxygen Supply";
+      text = `Anticipated transport exceeds the conservative estimated oxygen duration by ${formatDuration(Math.abs(reserve))}. Change or supplement the oxygen source before departure.`;
+    }
+
+    el.transportAssessment.hidden = false;
+    el.transportBanner.className = `recommendation ${kind}`;
+    el.transportBanner.querySelector(".recommendation-icon").textContent = icon;
+    el.transportTitle.textContent = title;
+    el.transportText.textContent = text;
   }
 
   function resetResults() {
-    el.planningVt.textContent = "—";
-    el.minuteVentilation.textContent = "—";
     el.oxygenDurationRange.textContent = "—";
-    el.calculationStatus.textContent = "Enter all values";
+    el.calculationStatus.textContent = "Enter all required values";
     el.durationRange.textContent = "Awaiting values";
-    el.transportText.textContent = "Enter the required information above.";
-    [el.durationCard, el.maskSealBanner, el.transportBanner].forEach((node) => {
-      node.classList.remove("good", "caution", "critical");
-      node.classList.add("neutral");
-    });
+    el.durationCard.className = "result-card duration-card range-duration-card neutral";
+    el.transportAssessment.hidden = true;
   }
 
   function calculate() {
     const values = validate();
-    if (!values.valid) { resetResults(); return; }
+    if (!values.valid) {
+      resetResults();
+      return;
+    }
 
     const totalInches = values.feet * 12 + values.inches;
     const heightCm = totalInches * 2.54;
@@ -137,18 +203,17 @@
     const upperDuration = lowLeakO2Lpm > 0 ? usableLiters / lowLeakO2Lpm : Infinity;
     const lowerDuration = highLeakO2Lpm > 0 ? usableLiters / highLeakO2Lpm : Infinity;
 
-    el.planningVt.textContent = Math.round(planningVtMl).toLocaleString();
-    el.minuteVentilation.textContent = minuteVentilationLpm.toFixed(1);
     el.oxygenDurationRange.textContent = `${formatDuration(lowerDuration)} – ${formatDuration(upperDuration)}`;
-
-    if (lowerDuration >= 60) setStatus("good", "Good range", lowerDuration);
-    else if (lowerDuration >= 30) setStatus("caution", "Caution range", lowerDuration);
-    else setStatus("critical", "Critical range", lowerDuration);
+    setDurationStatus(lowerDuration);
+    setTransportAssessment(values.transportMinutes, lowerDuration);
   }
 
-  [el.tankPsi, el.heightFeet, el.heightInches, el.fio2].forEach((input) => input.addEventListener("input", calculate));
+  [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+    .forEach((input) => input.addEventListener("input", calculate));
+
   el.resetButton.addEventListener("click", () => {
-    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2].forEach((input) => { input.value = ""; });
+    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+      .forEach((input) => { input.value = ""; });
     selectTank("");
     clearErrors();
     resetResults();

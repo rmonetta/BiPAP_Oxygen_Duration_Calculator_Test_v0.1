@@ -1,21 +1,46 @@
-# HAMILTON-T1 BiPAP Oxygen Duration Calculator — Test Build
+# BiPAP Oxygen Duration Calculator
 
-Independent test site for pre-arrival oxygen-supply planning during noninvasive ventilation.
+Test Version 0.2 — Northwell Ambulance of Connecticut
 
-## User inputs
-- D, E, or M oxygen source
-- Current cylinder pressure
+A mobile-friendly pre-arrival planning tool for estimating oxygen duration for patients receiving BiPAP using the HAMILTON-T1.
+
+## Required inputs
+
+- Oxygen source: D, E, or M tank
+- Current tank pressure
 - Patient height
-- Planned FiO2
+- Planned FiO₂
 
-## Internal planning assumptions
-- Male ARDSNet predicted-body-weight equation
-- 8 mL/kg PBW anticipated tidal volume
-- 10% tidal-volume allowance
-- Respiratory rate fixed at 20/min
-- HAMILTON-T1 adult/pediatric base flow of 3 L/min
-- Low leak assumption: 5 L/min
-- High leak assumption: 20 L/min
-- 300 PSI cylinder reserve
+## Optional input
 
-The displayed duration is a range from the high-leak estimate to the low-leak estimate. This is a planning estimate only and requires clinical/bench validation before production use.
+- Estimated transport time, including loading, travel, transfer of care, and foreseeable delays
+
+## Calculation model
+
+The calculator uses a conservative height-based planning model internally:
+
+1. Male predicted body weight equation
+2. 8 mL/kg predicted tidal volume
+3. Additional 10% planning allowance
+4. Respiratory rate fixed at 20 breaths/min
+5. HAMILTON-T1 adult base flow of 3 L/min
+6. Low- and high-leak assumptions of 5 and 20 L/min
+7. 300 PSI cylinder reserve
+
+The displayed output is a duration range based on mask seal. Internal tidal-volume and minute-ventilation estimates are not displayed because they are planning assumptions, not measured patient values.
+
+If an optional transport time is entered, the calculator compares it with the lower, conservative duration estimate:
+
+- Green: 15 minutes or more projected reserve
+- Yellow: 0–14 minutes projected reserve
+- Red: anticipated transport exceeds the lower duration estimate
+
+## Deployment
+
+This is a static website. No build command is required. Deploy with:
+
+`npx wrangler deploy`
+
+## Important
+
+This calculator is a planning estimate only and does not replace clinical judgment or continuous monitoring.
