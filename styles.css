@@ -315,8 +315,14 @@ html[data-theme="dark"] .result-value { color: #e7f1ff; }
 .recommendation.neutral { background: var(--neutral-soft); color: var(--neutral); }
 .recommendation-icon {
   width: 28px; height: 28px; flex: 0 0 auto;
-  display: grid; place-items: center;
+  display: flex; align-items: center; justify-content: center;
   border-radius: 50%; border: 2px solid currentColor; font-weight: 900;
+  line-height: 1; padding: 0;
+}
+.recommendation-icon svg {
+  width: 18px; height: 18px; display: block;
+  fill: none; stroke: currentColor; stroke-width: 3;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 .recommendation-title { font-weight: 850; }
 .recommendation-text { margin-top: 3px; color: var(--text); }
@@ -328,8 +334,14 @@ html[data-theme="dark"] .result-value { color: #e7f1ff; }
 .range-item + .range-item { border-left: 1px solid var(--border); }
 .range-symbol {
   width: 38px; height: 38px; flex: 0 0 auto;
-  display: grid; place-items: center; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; border-radius: 50%;
   color: white; font-size: 1.25rem; font-weight: 900;
+  line-height: 1; padding: 0;
+}
+.range-symbol svg {
+  width: 24px; height: 24px; display: block;
+  fill: none; stroke: currentColor; stroke-width: 3;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 .range-item.good .range-symbol { background: var(--good); }
 .range-item.caution .range-symbol { background: #e49b00; }
@@ -556,3 +568,7 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
 @media (max-width: 600px) {
   .assessment-metrics { grid-template-columns: 1fr; }
 }
+
+/* Version 0.4 transport assessment refinement */
+.assessment-metrics-single { grid-template-columns: minmax(0, 1fr); max-width: 900px; }
+.assessment-metrics-single > div { width: 100%; }

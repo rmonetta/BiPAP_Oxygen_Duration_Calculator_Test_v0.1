@@ -133,6 +133,16 @@
     el.durationRange.textContent = "Estimated O₂ Tank Duration";
   }
 
+  function assessmentIconSvg(kind) {
+    if (kind === "good") {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>`;
+    }
+    if (kind === "caution") {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v8"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/></svg>`;
+    }
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg>`;
+  }
+
   function setTransportAssessment(transportMinutes, lowerDuration) {
     if (transportMinutes === null) {
       el.transportAssessment.hidden = true;
@@ -141,44 +151,32 @@
 
     const reserve = lowerDuration - transportMinutes;
     let kind;
-    let icon;
     let title;
-    let text;
+    let action;
 
     if (reserve >= 15) {
       kind = "good";
-      icon = "✓";
       title = "Adequate Oxygen Supply";
-      text = `
-        <div class="assessment-metrics">
-          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
-          <div><span>Conservative reserve remaining</span><strong>${formatDuration(reserve)}</strong></div>
-        </div>`;
+      action = "The estimated oxygen supply appears adequate for the anticipated transport.";
     } else if (reserve >= 0) {
       kind = "caution";
-      icon = "!";
       title = "Limited Oxygen Reserve";
-      text = `
-        <div class="assessment-metrics">
-          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
-          <div><span>Conservative reserve remaining</span><strong>${formatDuration(reserve)}</strong></div>
-        </div>
-        <p class="assessment-action">Consider changing or supplementing the oxygen source before departure.</p>`;
+      action = "Consider changing or supplementing the oxygen source before departure.";
     } else {
       kind = "critical";
-      icon = "×";
       title = "Insufficient Oxygen Supply";
-      text = `
-        <div class="assessment-metrics">
-          <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
-          <div><span>Estimated shortfall</span><strong>${formatDuration(Math.abs(reserve))}</strong></div>
-        </div>
-        <p class="assessment-action">Change or supplement the oxygen source before departure.</p>`;
+      action = "The anticipated transport exceeds the conservative estimated oxygen duration. Change or supplement the oxygen source before departure.";
     }
+
+    const text = `
+      <div class="assessment-metrics assessment-metrics-single">
+        <div><span>Anticipated transport time</span><strong>${formatDuration(transportMinutes)}</strong></div>
+      </div>
+      <p class="assessment-action">${action}</p>`;
 
     el.transportAssessment.hidden = false;
     el.transportBanner.className = `recommendation transport-decision ${kind}`;
-    el.transportBanner.querySelector(".recommendation-icon").textContent = icon;
+    el.transportBanner.querySelector(".recommendation-icon").innerHTML = assessmentIconSvg(kind);
     el.transportTitle.textContent = title;
     el.transportText.innerHTML = text;
   }
