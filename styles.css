@@ -664,3 +664,15 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
     flex-basis: 100%;
   }
 }
+
+
+/* v0.4.3: centimeter height input with imperial reference */
+.height-conversion {
+  display: block;
+  min-height: 1.25em;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: .86rem;
+  font-weight: 600;
+  text-align: center;
+}

@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=0.4.2">
+  <link rel="stylesheet" href="styles.css?v=0.4.3">
 </head>
 <body>
   <header class="app-header">
@@ -87,17 +87,11 @@
       <div class="two-column">
         <label class="field">
           <span class="field-label">Patient Height</span>
-          <span class="height-inputs">
-            <span class="input-with-unit">
-              <input id="heightFeet" type="number" inputmode="numeric" min="4" max="7" step="1" placeholder="Feet" autocomplete="off">
-              <span class="unit">ft</span>
-            </span>
-            <span class="input-with-unit">
-              <input id="heightInches" type="number" inputmode="numeric" min="0" max="11" step="1" placeholder="Inches" autocomplete="off">
-              <span class="unit">in</span>
-            </span>
+          <span class="input-with-unit">
+            <input id="heightCm" type="number" inputmode="decimal" min="122" max="241" step="0.1" placeholder="Height" autocomplete="off">
+            <span class="unit">cm</span>
           </span>
-          <span class="field-hint">Adult planning range: 4 ft 0 in–7 ft 11 in</span>
+          <span id="heightImperial" class="height-conversion" aria-live="polite"></span>
           <span class="field-error" id="heightError"></span>
         </label>
 
@@ -174,10 +168,10 @@
       <p><strong>Planning estimate only.</strong> This calculator is intended for pre-arrival transport planning using the Hamilton T1 ventilator. Estimated oxygen duration is calculated using conservative planning assumptions for patient size, respiratory rate, tidal volume, and anticipated mask seal. Actual oxygen consumption may vary based on patient effort, ventilator settings, mask fit, circuit leak, and changes in patient condition. Always verify adequate oxygen supply before departure and continuously monitor the patient, ventilator, and oxygen source throughout transport.</p>
     </aside>
 
-    <footer><span>Northwell Ambulance of Connecticut</span><span>Test Version 0.4.2</span></footer>
+    <footer><span>Northwell Ambulance of Connecticut</span><span>Test Version 0.4.3</span></footer>
   </main>
 
   <noscript><div class="noscript">JavaScript must be enabled to use this calculator.</div></noscript>
-  <script src="app.js?v=0.4.2" defer></script>
+  <script src="app.js?v=0.4.3" defer></script>
 </body>
 </html>

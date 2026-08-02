@@ -15,8 +15,8 @@
     tankType: document.getElementById("tankType"),
     tankOptions: [...document.querySelectorAll(".tank-option")],
     tankPsi: document.getElementById("tankPsi"),
-    heightFeet: document.getElementById("heightFeet"),
-    heightInches: document.getElementById("heightInches"),
+    heightCm: document.getElementById("heightCm"),
+    heightImperial: document.getElementById("heightImperial"),
     fio2: document.getElementById("fio2"),
     transportMinutes: document.getElementById("transportMinutes"),
     resetButton: document.getElementById("resetButton"),
@@ -66,7 +66,7 @@
   function clearErrors() {
     [el.tankTypeError, el.tankPsiError, el.heightError, el.fio2Error, el.transportMinutesError]
       .forEach((node) => { node.textContent = ""; });
-    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+    [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
       .forEach((node) => node.classList.remove("is-invalid"));
   }
 
@@ -75,8 +75,7 @@
     let valid = true;
     const tank = el.tankType.value;
     const psi = numberValue(el.tankPsi);
-    const feet = numberValue(el.heightFeet);
-    const inches = numberValue(el.heightInches);
+    const heightCm = numberValue(el.heightCm);
     const fio2 = numberValue(el.fio2);
     const transportMinutes = numberValue(el.transportMinutes);
 
@@ -89,10 +88,9 @@
       el.tankPsi.classList.add("is-invalid");
       valid = false;
     }
-    if (feet === null || feet < 4 || feet > 7 || inches === null || inches < 0 || inches > 11) {
-      el.heightError.textContent = "Enter height using 4–7 feet and 0–11 inches.";
-      el.heightFeet.classList.add("is-invalid");
-      el.heightInches.classList.add("is-invalid");
+    if (heightCm === null || heightCm < 122 || heightCm > 241) {
+      el.heightError.textContent = "Please enter a valid adult height.";
+      el.heightCm.classList.add("is-invalid");
       valid = false;
     }
     if (fio2 === null || fio2 < 21 || fio2 > 100) {
@@ -106,7 +104,22 @@
       valid = false;
     }
 
-    return { valid, tank, psi, feet, inches, fio2, transportMinutes };
+    return { valid, tank, psi, heightCm, fio2, transportMinutes };
+  }
+
+
+  function updateHeightConversion() {
+    const heightCm = numberValue(el.heightCm);
+
+    if (heightCm === null || heightCm <= 0) {
+      el.heightImperial.textContent = "";
+      return;
+    }
+
+    const totalInches = Math.round(heightCm / 2.54);
+    const feet = Math.floor(totalInches / 12);
+    const inches = totalInches % 12;
+    el.heightImperial.textContent = `(${feet} ft ${inches} in)`;
   }
 
   function formatDuration(minutes) {
@@ -196,9 +209,7 @@
       return;
     }
 
-    const totalInches = values.feet * 12 + values.inches;
-    const heightCm = totalInches * 2.54;
-    const pbwKg = Math.max(0, 50 + 0.91 * (heightCm - 152.4));
+    const pbwKg = Math.max(0, 50 + 0.91 * (values.heightCm - 152.4));
     const predictedVtMl = pbwKg * VT_ML_PER_KG;
     const planningVtMl = predictedVtMl * VT_SAFETY_MULTIPLIER;
     const minuteVentilationLpm = (planningVtMl * PLANNING_RR) / 1000;
@@ -216,12 +227,15 @@
     setTransportAssessment(values.transportMinutes, lowerDuration);
   }
 
-  [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+  [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
     .forEach((input) => input.addEventListener("input", calculate));
 
+  el.heightCm.addEventListener("input", updateHeightConversion);
+
   el.resetButton.addEventListener("click", () => {
-    [el.tankPsi, el.heightFeet, el.heightInches, el.fio2, el.transportMinutes]
+    [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
       .forEach((input) => { input.value = ""; });
+    updateHeightConversion();
     selectTank("");
     clearErrors();
     resetResults();
