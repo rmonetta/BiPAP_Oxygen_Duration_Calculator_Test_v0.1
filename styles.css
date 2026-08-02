@@ -614,16 +614,53 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   transform-origin: center;
 }
 
-
-/* v0.4.2 force centered transport card */
-.assessment-metrics-single{
-    display:flex !important;
-    justify-content:center !important;
-    align-items:center !important;
+/* v0.4.2: centered anticipated transport time card */
+.transport-decision .recommendation-content {
+  min-width: 0;
 }
-.assessment-metrics-single > div{
-    flex:0 1 360px !important;
-    width:360px !important;
-    max-width:360px !important;
-    margin:0 auto !important;
+
+.transport-decision .assessment-metrics-single {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 18px 0;
+}
+
+.transport-decision .assessment-metrics-single > div {
+  flex: 0 1 360px;
+  width: 360px;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.transport-decision .assessment-metrics-single span {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.transport-decision .assessment-metrics-single strong {
+  display: block;
+  margin: 0;
+  color: var(--text);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.transport-decision .assessment-action {
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .transport-decision .assessment-metrics-single > div {
+    flex-basis: 100%;
+  }
 }

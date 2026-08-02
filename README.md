@@ -1,6 +1,6 @@
 # BiPAP Oxygen Duration Calculator
 
-Test Version 0.4.1 — Northwell Ambulance of Connecticut
+Test Version 0.4.2 — Northwell Ambulance of Connecticut
 
 A mobile-friendly pre-arrival planning tool for estimating oxygen duration for patients receiving BiPAP using the HAMILTON-T1.
 
@@ -60,3 +60,10 @@ This calculator is a planning estimate only and does not replace clinical judgme
 - Added status-specific recommendation text.
 - Replaced text glyphs with centered SVG status symbols.
 - Retained the Transport Assessment Guide title and thresholds.
+
+
+## Version 0.4.2 change
+
+- Centered and narrowed the dynamically generated anticipated transport time card.
+- Added asset cache-busting and advanced the service-worker cache to v0.4.2.
+- No calculation logic, thresholds, wording, or tank constants were changed.
