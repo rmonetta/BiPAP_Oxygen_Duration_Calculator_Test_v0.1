@@ -613,3 +613,17 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   transform: translate(-50%, -50%);
   transform-origin: center;
 }
+
+
+/* v0.4.2 force centered transport card */
+.assessment-metrics-single{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+}
+.assessment-metrics-single > div{
+    flex:0 1 360px !important;
+    width:360px !important;
+    max-width:360px !important;
+    margin:0 auto !important;
+}
