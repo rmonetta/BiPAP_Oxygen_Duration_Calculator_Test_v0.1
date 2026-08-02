@@ -59,7 +59,7 @@ button, input, select { font: inherit; }
   background: linear-gradient(135deg, #052b5d 0%, #073c7d 100%);
   color: white;
   padding: max(18px, env(safe-area-inset-top)) clamp(18px, 4vw, 44px) 24px;
-  text-align: center;
+  text-align: left;
 }
 
 .brand-wrap {
@@ -674,5 +674,5 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   color: var(--muted);
   font-size: .86rem;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
 }

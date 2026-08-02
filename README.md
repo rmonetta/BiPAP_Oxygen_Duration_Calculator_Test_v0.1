@@ -75,3 +75,10 @@ This calculator is a planning estimate only and does not replace clinical judgme
 - Added a live, read-only feet/inches conversion beneath the centimeter field.
 - Removed the always-visible adult height-range hint.
 - No oxygen-duration calculation assumptions or thresholds were changed.
+
+
+# Version 1.0
+Official 1.0 release.
+- Height entry in centimeters
+- Live feet/inches reference
+- Left-aligned reference display
