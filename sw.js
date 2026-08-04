@@ -1,9 +1,9 @@
-const CACHE_NAME = "bipap-o2-duration-v1.0";
+const CACHE_NAME = "bipap-o2-duration-v1.1";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=1.0",
-  "./app.js?v=1.0",
+  "./styles.css?v=1.1",
+  "./app.js?v=1.1",
   "./manifest.webmanifest",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png"

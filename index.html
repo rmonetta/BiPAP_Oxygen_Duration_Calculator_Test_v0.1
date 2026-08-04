@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=1.0">
+  <link rel="stylesheet" href="styles.css?v=1.1">
 </head>
 <body>
   <header class="app-header">
@@ -113,15 +113,27 @@
         <h2 id="transport-heading">Transport Planning <span class="optional-label">Optional</span></h2>
       </div>
 
-      <label class="field transport-time-field">
+      <div class="field transport-time-field">
         <span class="field-label">Estimated Transport Time</span>
-        <span class="input-with-unit">
-          <input id="transportMinutes" type="number" inputmode="numeric" min="1" max="1440" step="1" placeholder="Enter minutes" autocomplete="off">
-          <span class="unit">minutes</span>
-        </span>
+        <div class="transport-time-grid">
+          <label class="transport-time-input">
+            <span class="subfield-label">Hours</span>
+            <span class="input-with-unit">
+              <input id="transportHours" type="number" inputmode="numeric" min="0" max="24" step="1" placeholder="0" autocomplete="off">
+              <span class="unit">hr</span>
+            </span>
+          </label>
+          <label class="transport-time-input">
+            <span class="subfield-label">Minutes</span>
+            <span class="input-with-unit">
+              <input id="transportMinutes" type="number" inputmode="numeric" min="0" max="59" step="1" placeholder="0" autocomplete="off">
+              <span class="unit">min</span>
+            </span>
+          </label>
+        </div>
         <span class="field-hint">Include anticipated loading, travel, transfer of care, and foreseeable delays.</span>
-        <span class="field-error" id="transportMinutesError"></span>
-      </label>
+        <span class="field-error" id="transportTimeError"></span>
+      </div>
 
       <div class="action-row">
         <button id="resetButton" class="reset-button" type="button">Reset Calculator</button>
@@ -172,6 +184,6 @@
   </main>
 
   <noscript><div class="noscript">JavaScript must be enabled to use this calculator.</div></noscript>
-  <script src="app.js?v=1.0" defer></script>
+  <script src="app.js?v=1.1" defer></script>
 </body>
 </html>

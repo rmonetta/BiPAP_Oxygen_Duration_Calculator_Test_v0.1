@@ -18,13 +18,14 @@
     heightCm: document.getElementById("heightCm"),
     heightImperial: document.getElementById("heightImperial"),
     fio2: document.getElementById("fio2"),
+    transportHours: document.getElementById("transportHours"),
     transportMinutes: document.getElementById("transportMinutes"),
     resetButton: document.getElementById("resetButton"),
     tankTypeError: document.getElementById("tankTypeError"),
     tankPsiError: document.getElementById("tankPsiError"),
     heightError: document.getElementById("heightError"),
     fio2Error: document.getElementById("fio2Error"),
-    transportMinutesError: document.getElementById("transportMinutesError"),
+    transportTimeError: document.getElementById("transportTimeError"),
     calculationStatus: document.getElementById("calculationStatus"),
     oxygenDurationRange: document.getElementById("oxygenDurationRange"),
     durationCard: document.getElementById("durationCard"),
@@ -64,9 +65,9 @@
   }
 
   function clearErrors() {
-    [el.tankTypeError, el.tankPsiError, el.heightError, el.fio2Error, el.transportMinutesError]
+    [el.tankTypeError, el.tankPsiError, el.heightError, el.fio2Error, el.transportTimeError]
       .forEach((node) => { node.textContent = ""; });
-    [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
+    [el.tankPsi, el.heightCm, el.fio2, el.transportHours, el.transportMinutes]
       .forEach((node) => node.classList.remove("is-invalid"));
   }
 
@@ -77,7 +78,12 @@
     const psi = numberValue(el.tankPsi);
     const heightCm = numberValue(el.heightCm);
     const fio2 = numberValue(el.fio2);
-    const transportMinutes = numberValue(el.transportMinutes);
+    const transportHoursValue = numberValue(el.transportHours);
+    const transportMinutesValue = numberValue(el.transportMinutes);
+    const transportEntered = transportHoursValue !== null || transportMinutesValue !== null;
+    const transportHours = transportHoursValue ?? 0;
+    const transportMinutePart = transportMinutesValue ?? 0;
+    const transportMinutes = transportEntered ? (transportHours * 60) + transportMinutePart : null;
 
     if (!TANK_FACTORS[tank]) {
       el.tankTypeError.textContent = "Select an oxygen source.";
@@ -98,10 +104,17 @@
       el.fio2.classList.add("is-invalid");
       valid = false;
     }
-    if (transportMinutes !== null && (transportMinutes < 1 || transportMinutes > 1440)) {
-      el.transportMinutesError.textContent = "Enter 1–1440 minutes, or leave this optional field blank.";
-      el.transportMinutes.classList.add("is-invalid");
-      valid = false;
+    if (transportEntered) {
+      const invalidHours = !Number.isInteger(transportHours) || transportHours < 0 || transportHours > 24;
+      const invalidMinutes = !Number.isInteger(transportMinutePart) || transportMinutePart < 0 || transportMinutePart > 59;
+      const emptyDuration = transportMinutes <= 0;
+
+      if (invalidHours || invalidMinutes || emptyDuration) {
+        el.transportTimeError.textContent = "Enter up to 24 hours and 0–59 minutes, or leave both fields blank.";
+        if (invalidHours || emptyDuration) el.transportHours.classList.add("is-invalid");
+        if (invalidMinutes || emptyDuration) el.transportMinutes.classList.add("is-invalid");
+        valid = false;
+      }
     }
 
     return { valid, tank, psi, heightCm, fio2, transportMinutes };
@@ -227,13 +240,13 @@
     setTransportAssessment(values.transportMinutes, lowerDuration);
   }
 
-  [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
+  [el.tankPsi, el.heightCm, el.fio2, el.transportHours, el.transportMinutes]
     .forEach((input) => input.addEventListener("input", calculate));
 
   el.heightCm.addEventListener("input", updateHeightConversion);
 
   el.resetButton.addEventListener("click", () => {
-    [el.tankPsi, el.heightCm, el.fio2, el.transportMinutes]
+    [el.tankPsi, el.heightCm, el.fio2, el.transportHours, el.transportMinutes]
       .forEach((input) => { input.value = ""; });
     updateHeightConversion();
     selectTank("");

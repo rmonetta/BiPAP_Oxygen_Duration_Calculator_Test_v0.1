@@ -480,6 +480,30 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   margin: 0 auto;
 }
 
+.transport-time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.transport-time-input {
+  display: grid;
+  gap: 8px;
+}
+
+.subfield-label {
+  color: var(--muted);
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .transport-time-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
 .range-duration-card {
   width: 100%;
   padding: clamp(26px, 5vw, 46px);
