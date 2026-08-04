@@ -82,3 +82,20 @@ Official 1.0 release.
 - Height entry in centimeters
 - Live feet/inches reference
 - Left-aligned reference display
+
+
+## Version 1.2
+
+- Replaced the line-art BiPAP icon with a transparent-background full-face BiPAP mask image.
+- Added a circular Home button in the header linking to the calculator selection landing page.
+- Updated asset cache-busting and service-worker cache version.
+
+
+## Version 1.3
+
+- Replaced the header line-art symbol with a transparent-background BiPAP mask image.
+- Added a Home button linking to the Pre-Arrival Transport Planning Tools landing page.
+- Added a Clinical Setup Resources section.
+- Embedded the Hamilton T1 Initial Setup & Pre-op Checks PDF and BiPAP/CPAP Setup PDF.
+- Added direct links to both corresponding YouTube setup videos.
+- Updated service-worker cache assets and versioning.

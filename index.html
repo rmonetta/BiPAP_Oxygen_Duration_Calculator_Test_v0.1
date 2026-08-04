@@ -12,7 +12,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=1.1">
+  <link rel="stylesheet" href="styles.css?v=1.3">
 </head>
 <body>
   <header class="app-header">
@@ -26,18 +26,22 @@
         <div class="brand-main">Northwell</div>
         <div class="brand-sub">Ambulance of Connecticut</div>
       </div>
-      <button id="themeToggle" class="icon-button" type="button" aria-label="Switch to dark mode" title="Toggle dark mode">
-        <span class="theme-icon" aria-hidden="true">◐</span>
-      </button>
+      <div class="header-actions">
+        <a class="home-button" href="https://pre-arrival-transport-planning-tools.openemsresources.workers.dev" aria-label="Return to Calculator Selection" title="Return to Calculator Selection">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.5 10.8 12 3.7l8.5 7.1"/>
+            <path d="M5.8 9.4v10h4.3v-5.7h3.8v5.7h4.3v-10"/>
+          </svg>
+        </a>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Switch to dark mode" title="Toggle dark mode">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+        </button>
+      </div>
     </div>
 
     <div class="title-rule"></div>
     <div class="title-with-icon">
-      <svg class="bipap-icon" viewBox="0 0 96 96" role="img" aria-label="BiPAP mask icon">
-        <path d="M30 26c4-8 12-13 18-13s14 5 18 13l7 17c2 5 1 11-3 15L58 71c-3 3-6 5-10 5s-7-2-10-5L26 58c-4-4-5-10-3-15l7-17Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M35 43h26M39 55c5 4 13 4 18 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-        <path d="M23 39 10 32M73 39l13-7M28 61 14 70M68 61l14 9" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-      </svg>
+      <img class="bipap-image" src="assets/images/bipap-mask.png?v=1.3" alt="BiPAP full-face mask">
       <div>
         <h1>BiPAP Oxygen Duration Calculator</h1>
         <p class="patient-type">For Hamilton T1 Ventilator</p>
@@ -47,6 +51,58 @@
   </header>
 
   <main class="app-shell">
+
+    <section class="clinical-resources" aria-labelledby="clinical-resources-heading">
+      <div class="resource-heading">
+        <div>
+          <p class="resource-kicker">Quick access</p>
+          <h2 id="clinical-resources-heading">Clinical Setup Resources</h2>
+        </div>
+        <p class="resource-intro">Open the illustrated setup guides or watch the corresponding procedure videos.</p>
+      </div>
+
+      <div class="resource-grid">
+        <article class="resource-card">
+          <div class="resource-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5v4h4"/><path d="M9 12h6M9 15.5h6"/></svg>
+          </div>
+          <div class="resource-card-content">
+            <h3>Hamilton T1 Initial Setup &amp; Pre-op Checks</h3>
+            <p>Circuit assembly, leak testing, and flow-sensor calibration.</p>
+            <div class="resource-actions">
+              <a class="resource-button guide-link" href="assets/guides/hamilton-t1-initial-setup-preop-checks.pdf" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5v4h4"/></svg>
+                View PDF Guide
+              </a>
+              <a class="resource-button video-link" href="https://youtu.be/sSamooWX7f0" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 7.5 17 12l-7.5 4.5z"/><circle cx="12" cy="12" r="9"/></svg>
+                Watch Setup Video
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="resource-card">
+          <div class="resource-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5v4h4"/><path d="M9 12h6M9 15.5h6"/></svg>
+          </div>
+          <div class="resource-card-content">
+            <h3>Hamilton T1 BiPAP / CPAP Setup</h3>
+            <p>NIV-ST mode selection, pressure settings, mask connection, and leak management.</p>
+            <div class="resource-actions">
+              <a class="resource-button guide-link" href="assets/guides/hamilton-t1-bipap-cpap-setup.pdf" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5v4h4"/></svg>
+                View PDF Guide
+              </a>
+              <a class="resource-button video-link" href="https://youtu.be/qGt6gWHX4sE" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 7.5 17 12l-7.5 4.5z"/><circle cx="12" cy="12" r="9"/></svg>
+                Watch Setup Video
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
     <section class="panel" aria-labelledby="oxygen-source-heading">
       <div class="section-heading">
         <span class="step-number">1</span>
@@ -180,10 +236,10 @@
       <p><strong>Planning estimate only.</strong> This calculator is intended for pre-arrival transport planning using the Hamilton T1 ventilator. Estimated oxygen duration is calculated using conservative planning assumptions for patient size, respiratory rate, tidal volume, and anticipated mask seal. Actual oxygen consumption may vary based on patient effort, ventilator settings, mask fit, circuit leak, and changes in patient condition. Always verify adequate oxygen supply before departure and continuously monitor the patient, ventilator, and oxygen source throughout transport.</p>
     </aside>
 
-    <footer><span>Northwell Ambulance of Connecticut</span><span>Version 1.0</span></footer>
+    <footer><span>Northwell Ambulance of Connecticut</span><span>Version 1.3</span></footer>
   </main>
 
   <noscript><div class="noscript">JavaScript must be enabled to use this calculator.</div></noscript>
-  <script src="app.js?v=1.1" defer></script>
+  <script src="app.js?v=1.3" defer></script>
 </body>
 </html>

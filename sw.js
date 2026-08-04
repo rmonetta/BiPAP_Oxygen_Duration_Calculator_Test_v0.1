@@ -1,12 +1,15 @@
-const CACHE_NAME = "bipap-o2-duration-v1.1";
+const CACHE_NAME = "bipap-o2-duration-v1.3";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=1.1",
-  "./app.js?v=1.1",
+  "./styles.css?v=1.3",
+  "./app.js?v=1.3",
   "./manifest.webmanifest",
   "./assets/icons/icon-192.png",
-  "./assets/icons/icon-512.png"
+  "./assets/icons/icon-512.png",
+  "./assets/images/bipap-mask.png?v=1.3",
+  "./assets/guides/hamilton-t1-initial-setup-preop-checks.pdf",
+  "./assets/guides/hamilton-t1-bipap-cpap-setup.pdf"
 ];
 
 self.addEventListener("install", (event) => {

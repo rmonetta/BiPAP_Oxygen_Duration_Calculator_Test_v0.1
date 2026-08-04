@@ -85,6 +85,23 @@ button, input, select { font: inherit; }
 .brand-mark span:nth-child(4n+4) { background:#f59b32; }
 
 .brand-text { flex: 1; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.home-button {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  color: white;
+  text-decoration: none;
+  transition: background-color .18s ease, transform .18s ease, border-color .18s ease;
+}
+.home-button svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.home-button:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.8); transform: scale(1.05); }
+.home-button:focus-visible { outline: 3px solid rgba(255,216,77,.95); outline-offset: 3px; }
 .brand-main { font-size: clamp(1.55rem, 4vw, 2.35rem); font-weight: 750; line-height: 1; }
 .brand-sub { margin-top: 5px; font-size: clamp(1rem, 2.4vw, 1.45rem); line-height: 1.15; }
 
@@ -390,7 +407,7 @@ footer {
   .range-grid { grid-template-columns: 1fr; }
   .range-item + .range-item { border-left: 0; border-top: 1px solid var(--border); }
   .brand-mark { grid-template-columns: repeat(4, 8px); grid-template-rows: repeat(3, 8px); }
-  .icon-button { width: 42px; height: 42px; }
+  .icon-button, .home-button { width: 42px; height: 42px; }
   footer { flex-direction: column; text-align: center; }
 }
 
@@ -456,12 +473,12 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
 
 .title-with-icon > div { min-width: 0; }
 
-.bipap-icon {
-  width: clamp(62px, 9vw, 92px);
-  height: clamp(62px, 9vw, 92px);
+.bipap-image {
+  width: clamp(92px, 13vw, 150px);
+  height: clamp(78px, 11vw, 126px);
   flex: 0 0 auto;
-  color: white;
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,.18));
+  object-fit: contain;
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,.28));
 }
 
 .optional-label {
@@ -532,9 +549,9 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
     align-items: flex-start;
     text-align: left;
   }
-  .bipap-icon {
-    width: 58px;
-    height: 58px;
+  .bipap-image {
+    width: 76px;
+    height: 68px;
     margin-top: 2px;
   }
   .title-with-icon .patient-type,
@@ -699,4 +716,130 @@ html[data-theme="dark"] .tank-option strong { color: #8ebeff; }
   font-size: .86rem;
   font-weight: 600;
   text-align: left;
+}
+
+
+/* Version 1.3: Clinical setup resources */
+.clinical-resources {
+  margin-bottom: 20px;
+  padding: clamp(20px, 3vw, 30px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.resource-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 22px;
+}
+.resource-kicker {
+  margin: 0 0 4px;
+  color: var(--blue);
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.resource-heading h2 {
+  margin: 0;
+  color: var(--navy-2);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: .015em;
+}
+html[data-theme="dark"] .resource-heading h2 { color: #7fb4ff; }
+.resource-intro {
+  max-width: 520px;
+  margin: 0;
+  color: var(--muted);
+  text-align: right;
+}
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.resource-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-2);
+}
+.resource-card-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 13px;
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.resource-card-icon svg,
+.resource-button svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.resource-card-icon svg { width: 26px; height: 26px; }
+.resource-card-content { min-width: 0; flex: 1; }
+.resource-card h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+.resource-card p {
+  margin: 7px 0 16px;
+  color: var(--muted);
+  font-size: .92rem;
+}
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.resource-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--blue);
+  border-radius: 11px;
+  font-size: .9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .16s ease, background-color .16s ease, color .16s ease;
+}
+.resource-button svg { width: 19px; height: 19px; flex: 0 0 auto; }
+.guide-link { background: var(--surface); color: var(--blue); }
+.video-link { background: var(--blue); color: white; }
+.resource-button:hover { transform: translateY(-1px); }
+.guide-link:hover { background: var(--blue-soft); }
+.video-link:hover { background: var(--navy-2); }
+.resource-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+@media (max-width: 840px) {
+  .resource-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 660px) {
+  .resource-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .resource-intro { text-align: left; }
+}
+@media (max-width: 480px) {
+  .resource-card { padding: 17px; }
+  .resource-card-icon { width: 42px; height: 42px; }
+  .resource-actions { display: grid; grid-template-columns: 1fr; }
+  .resource-button { width: 100%; }
 }
