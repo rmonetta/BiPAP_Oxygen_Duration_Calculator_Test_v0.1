@@ -1,13 +1,14 @@
-const CACHE_NAME = "bipap-o2-duration-v1.3";
+const CACHE_NAME = "bipap-o2-duration-v1.4";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=1.3",
-  "./app.js?v=1.3",
+  "./styles.css?v=1.4",
+  "./app.js?v=1.4",
   "./manifest.webmanifest",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
-  "./assets/images/bipap-mask.png?v=1.3",
+  "./assets/images/bipap-mask.png?v=1.4",
+  "./assets/images/northwell-ems-logo-white.png?v=1.4",
   "./assets/guides/hamilton-t1-initial-setup-preop-checks.pdf",
   "./assets/guides/hamilton-t1-bipap-cpap-setup.pdf"
 ];
