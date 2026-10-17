@@ -1,4 +1,4 @@
-const CACHE_NAME = "bipap-o2-duration-v1.4";
+const CACHE_NAME = "bipap-o2-duration-v1.4-connecticut-logo2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,7 +8,7 @@ const ASSETS = [
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
   "./assets/images/bipap-mask.png?v=1.4",
-  "./assets/images/northwell-ems-logo-white.png?v=1.4",
+  "./assets/images/northwell-ambulance-connecticut-white-v2.png?v=1.4-logo2",
   "./assets/guides/hamilton-t1-initial-setup-preop-checks.pdf",
   "./assets/guides/hamilton-t1-bipap-cpap-setup.pdf"
 ];
